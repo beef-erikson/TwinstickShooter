@@ -67,11 +67,6 @@ public class GameController : MonoBehaviour
     {
         currentNumberOfEnemies--;
     }
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     #endregion
 }
