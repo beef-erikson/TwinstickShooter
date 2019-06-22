@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EnemyBehaviour : MonoBehaviour
 {
@@ -25,7 +23,7 @@ public class EnemyBehaviour : MonoBehaviour
             Health -= shot.shotDamage;
             Destroy(collision.gameObject);
         }
-
+        
         if (Health <= 0)
         {
             Destroy(gameObject);
