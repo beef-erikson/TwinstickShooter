@@ -24,11 +24,15 @@ public class EnemyBehaviour : MonoBehaviour
             Destroy(collision.gameObject);
         }
         
+        // Enemy dies and lets GameController know
         if (Health <= 0)
         {
             Destroy(gameObject);
+            GameController controller = GameObject.FindGameObjectWithTag("GameController").
+                GetComponent<GameController>();
+            controller.KilledEnemy();
         }
     }
-    
+
     #endregion
 }

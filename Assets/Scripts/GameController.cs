@@ -1,5 +1,9 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
+/// <summary>
+/// Game Controller that handles enemy spawning, UI, and other similar functions.
+/// </summary>
 public class GameController : MonoBehaviour
 {
     #region Fields
@@ -18,12 +22,51 @@ public class GameController : MonoBehaviour
 
     #region Methods
 
-    // Start is called before the first frame update
+    /// <summary>
+    /// Starts enemy spawner
+    /// </summary>
     void Start()
     {
-        
+        StartCoroutine(SpawnEnemies());
     }
 
+    /// <summary>
+    /// Coroutine to spawn enemies
+    /// </summary>
+    /// <returns>returns a new WaitForSeconds</returns>
+    IEnumerator SpawnEnemies()
+    {
+        // Gives time to player before spawning starts
+        yield return new WaitForSeconds(timeBeforeSpawning);
+
+        // Spawns enemies when there are none left
+        while (true)
+        {
+            if (currentNumberOfEnemies <= 0)
+            {
+                for (int i = 0; i < enemiesPerWave; i++)
+                {
+                    float randomDistance = Random.Range(10, 25);
+                    Vector2 randomDirection = Random.insideUnitCircle;
+                    
+                    // spawns a new enemy at a random position
+                    Vector2 enemyPosition = transform.position;
+                    enemyPosition.x += randomDirection.x * randomDistance;
+                    enemyPosition.y += randomDirection.y * randomDistance;
+                    Instantiate(Enemy, enemyPosition, transform.rotation);
+                    currentNumberOfEnemies++;
+
+                    yield return new WaitForSeconds(timeBeforeWaves);
+                }
+            }
+            yield return new WaitForSeconds(timeBeforeWaves);
+        }
+    }
+
+    public void KilledEnemy()
+    {
+        currentNumberOfEnemies--;
+    }
     // Update is called once per frame
     void Update()
     {
